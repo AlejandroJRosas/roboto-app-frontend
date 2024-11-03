@@ -13,7 +13,7 @@ export default function App() {
     altitude: '10m',
     heading: '45°',
   });
-  
+  const [streamFrame, setStreamFrame] = useState(null);
   const { konamiActivated, addToSequence } = useKonamiCode();
 
   const handleSpeedChange = (value: number) => {
@@ -29,7 +29,7 @@ export default function App() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
           <div className="lg:col-span-8 space-y-4 md:space-y-6">
-            <VideoFeed turboMode={konamiActivated} />
+            <VideoFeed turboMode={konamiActivated} streamFrame={streamFrame}/>
             <Controls 
               speed={konamiActivated ? 100 : speed} 
               onSpeedChange={handleSpeedChange}
