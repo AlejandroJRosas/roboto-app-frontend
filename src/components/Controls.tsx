@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigation, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, Plus, Minus } from 'lucide-react';
+import { Navigation, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, Plus, Minus, Hand } from 'lucide-react';
 
 interface ControlsProps {
   speed: number;
@@ -28,34 +28,43 @@ export const Controls = ({ speed, onSpeedChange, onKonamiInput }: ControlsProps)
         <Navigation className="w-5 h-5 md:w-6 md:h-6 text-blue-400" />
         <h2 className="text-lg md:text-xl font-semibold">Movement Controls</h2>
       </div>
-      
+
       <div className="grid grid-cols-3 gap-3 md:gap-4 max-w-[240px] mx-auto">
         <div></div>
-        <button 
+
+        <button
           onClick={() => handleButtonPress('ArrowUp')}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronUp className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
+
         <div></div>
-        
-        <button 
+        <button
           onClick={() => handleButtonPress('ArrowLeft')}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
-        <button 
-          onClick={() => handleButtonPress('ArrowDown')}
+        <button
+          onClick={() => handleButtonPress('StopButton')}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
-          <ChevronDown className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
+          <Hand className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
-        <button 
+
+        <button
           onClick={() => handleButtonPress('ArrowRight')}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronRight className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
+        </button>
+        <div></div>
+        <button
+          onClick={() => handleButtonPress('ArrowDown')}
+          className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
+        >
+          <ChevronDown className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
       </div>
 
