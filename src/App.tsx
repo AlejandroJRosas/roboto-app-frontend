@@ -3,7 +3,8 @@ import { Header } from './components/Header';
 import { VideoFeed } from './components/VideoFeed';
 import { Controls } from './components/Controls';
 import { GPSInfo } from './components/GPSInfo';
-import { useKonamiCode } from './hooks/useKonamiCode';
+import  useKonamiCode from './hooks/useKonamiCode';
+import useSockets from './hooks/useSockets';
 
 export default function App() {
   const [speed, setSpeed] = useState(50);
@@ -15,6 +16,19 @@ export default function App() {
   });
   const [streamFrame, setStreamFrame] = useState(null);
   const { konamiActivated, addToSequence } = useKonamiCode();
+  const socket = useSockets();
+  socket.on("receive-video-stream",(data) => {
+    setStreamFrame(data);
+  })
+  socket.on("receive-gps-update",(data) => {
+    setCoordinates((prevData) => {
+      return ({
+        ...prevData,
+        latitude: data.latitude + "° N",
+        longitude: data.longitude + "° W",
+      });
+    })
+  })
 
   const handleSpeedChange = (value: number) => {
     setSpeed(Math.min(Math.max(0, value), 100));

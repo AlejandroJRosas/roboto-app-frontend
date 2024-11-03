@@ -62,3 +62,5 @@ export const useKonamiCode = () => {
 
   return { konamiActivated, addToSequence };
 };
+
+export default useKonamiCode;
