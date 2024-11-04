@@ -26,6 +26,7 @@ export default function App() {
         ...prevData,
         latitude: data.latitude + "° N",
         longitude: data.longitude + "° W",
+        
       });
     })
   })
