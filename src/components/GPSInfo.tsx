@@ -1,22 +1,9 @@
 import { Compass } from 'lucide-react';
 import { MapComponent } from './Map';
+import useRobotoContext from '../hooks/useRobotoContext';
 
-interface Coordinates {
-  latitude: string;
-  longitude: string;
-  altitude: string;
-  heading: string;
-  direction: string;
-}
-
-interface GPSInfoProps {
-  coordinates: Coordinates;
-}
-
-export const GPSInfo = ({ coordinates }: GPSInfoProps) => {
-  // Convert string coordinates to numbers for the map
-  const lat = parseFloat(coordinates.latitude.replace('° N', ''));
-  const lng = parseFloat(coordinates.longitude.replace('° W', ''));
+export const GPSInfo = () => {
+  const { coordinates, robotoLocation } = useRobotoContext();
 
   return (
     <div className="bg-gray-800 rounded-lg p-4">
@@ -26,32 +13,74 @@ export const GPSInfo = ({ coordinates }: GPSInfoProps) => {
       </div>
       
       <div className="space-y-3 md:space-y-4">
-        <MapComponent latitude={lat} longitude={lng} />
+        <MapComponent/>
         
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 md:gap-4">
         <div className="bg-gray-700 rounded-lg p-3 md:p-4">
             <div className="text-xs md:text-sm text-gray-400">Direction</div>
-            <div className="text-base md:text-lg font-semibold">{coordinates.direction}</div>
+            {
+              robotoLocation.direction ? (
+                <div className="text-base md:text-lg font-semibold">{robotoLocation.direction}</div>
+              ) : (
+                <div className="text-base md:text-lg font-semibold">N/A</div>
+              )
+            }
           </div>
-          <div className="bg-gray-700 rounded-lg p-3 md:p-4">
-            <div className="text-xs md:text-sm text-gray-400">Latitude</div>
-            <div className="text-base md:text-lg font-semibold">{coordinates.latitude}</div>
-          </div>
-          
-          <div className="bg-gray-700 rounded-lg p-3 md:p-4">
-            <div className="text-xs md:text-sm text-gray-400">Longitude</div>
-            <div className="text-base md:text-lg font-semibold">{coordinates.longitude}</div>
-          </div>
-          
-          <div className="bg-gray-700 rounded-lg p-3 md:p-4">
-            <div className="text-xs md:text-sm text-gray-400">Altitude</div>
-            <div className="text-base md:text-lg font-semibold">{coordinates.altitude}</div>
-          </div>
-          
-          <div className="bg-gray-700 rounded-lg p-3 md:p-4">
-            <div className="text-xs md:text-sm text-gray-400">Heading</div>
-            <div className="text-base md:text-lg font-semibold">{coordinates.heading}</div>
-          </div>
+          {
+            coordinates ? (
+              <>
+                <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+                  <div className="text-xs md:text-sm text-gray-400">Latitude</div>
+                  <div className="text-base md:text-lg font-semibold">{coordinates.latitude.toFixed(5) + '° N'}</div>
+                </div>
+                
+                <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+                  <div className="text-xs md:text-sm text-gray-400">Longitude</div>
+                  <div className="text-base md:text-lg font-semibold">{coordinates.longitude.toFixed(5) + '° W'}</div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+                  <div className="text-xs md:text-sm text-gray-400">Latitude</div>
+                  <div className="text-base md:text-lg font-semibold">N/A</div>
+                </div>
+                
+                <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+                  <div className="text-xs md:text-sm text-gray-400">Longitude</div>
+                  <div className="text-base md:text-lg font-semibold">N/A</div>
+                </div>
+              </>
+            )
+          }
+
+          {
+            robotoLocation.altitudeInMetters ? (
+              <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+                <div className="text-xs md:text-sm text-gray-400">Altitude</div>
+                <div className="text-base md:text-lg font-semibold">{robotoLocation.altitudeInMetters}m</div>
+              </div>
+            ) : (
+              <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+                <div className="text-xs md:text-sm text-gray-400">Altitude</div>
+                <div className="text-base md:text-lg font-semibold">N/A</div>
+              </div>
+            )
+          }
+
+          {
+            robotoLocation.heading ? (
+              <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+                <div className="text-xs md:text-sm text-gray-400">Heading</div>
+                <div className="text-base md:text-lg font-semibold">{robotoLocation.heading}°</div>
+              </div>
+            ) : (
+              <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+                <div className="text-xs md:text-sm text-gray-400">Heading</div>
+                <div className="text-base md:text-lg font-semibold">N/A</div>
+              </div>
+            )
+          }
         </div>
       </div>
     </div>

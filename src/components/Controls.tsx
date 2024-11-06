@@ -1,25 +1,24 @@
 import { Navigation, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, Plus, Minus, Hand } from 'lucide-react';
-import { Socket } from 'socket.io-client';
+import useRobotoContext from '../hooks/useRobotoContext';
 
 interface ControlsProps {
   speed: number;
   onSpeedChange: (value: number) => void;
   onKonamiInput?: (input: string) => void;
-  socket: Socket;
 }
 
-export const Controls = ({ speed, onSpeedChange, onKonamiInput, socket }: ControlsProps) => {
+export const Controls = ({ speed, onSpeedChange, onKonamiInput }: ControlsProps) => {
+  const { socket } = useRobotoContext();
   const handleButtonPress = (direction: string) => {
     onKonamiInput?.(direction);
+
+    if (!socket) return;
     socket.emit('move', direction);
   };
 
   const handleSpeedButton = (type: 'plus' | 'minus') => {
 
     const newSpeed = type === 'plus' ? speed + 10 : speed - 10;
-
-    // Emitir el nuevo valor de speed directamente
-    socket.emit('speed', newSpeed);
 
     // Actualizar el estado de speed
     onSpeedChange(newSpeed);
@@ -29,6 +28,10 @@ export const Controls = ({ speed, onSpeedChange, onKonamiInput, socket }: Contro
     } else {
       onKonamiInput?.('KeyA');
     }
+
+    if (!socket) return;
+    // Emitir el nuevo valor de speed directamente
+    socket.emit('speed', newSpeed);
   };
 
   return (

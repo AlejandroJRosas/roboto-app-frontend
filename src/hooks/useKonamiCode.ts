@@ -63,4 +63,9 @@ export const useKonamiCode = () => {
   return { konamiActivated, addToSequence };
 };
 
+export interface KonamiCodeHook {
+  konamiActivated: boolean;
+  addToSequence: (input: string) => void;
+}
+
 export default useKonamiCode;

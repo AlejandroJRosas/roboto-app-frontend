@@ -1,37 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from './components/Header';
 import { VideoFeed } from './components/VideoFeed';
 import { Controls } from './components/Controls';
 import { GPSInfo } from './components/GPSInfo';
-import  useKonamiCode from './hooks/useKonamiCode';
-import useSockets from './hooks/useSockets';
+import useRobotoContext from './hooks/useRobotoContext';
 
 export default function App() {
   const [speed, setSpeed] = useState(50);
-  const [coordinates, setCoordinates] = useState({
-    //Direction UCAB Guayana
-    latitude: '8.297190438715472',
-    longitude: '-62.71175014484465',
-    altitude: '10m',
-    heading: '45°',
-    direction: 'N',
-  });
-  const [streamFrame, setStreamFrame] = useState(null);
-  const { konamiActivated, addToSequence } = useKonamiCode();
-  const socket = useSockets();
-  socket.on("receive-video-stream",(data) => {
-    setStreamFrame(data);
-  })
-  socket.on("receive-gps-update",(data) => {
-    setCoordinates((prevData) => {
-      return ({
-        ...prevData,
-        latitude: data.latitude + "° N",
-        longitude: data.longitude + "° W",
-        
-      });
+  const { konamiActivated, addToSequence, streamFrame, socket, setStreamFrame, setCoordinates } = useRobotoContext();
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("receive-video-stream", (data) => {
+      setStreamFrame(data);
     })
-  })
+    socket.on("receive-gps-update", (data) => {
+      setCoordinates(data)
+    })
+  }, [setCoordinates, setStreamFrame, socket]);
 
   const handleSpeedChange = (value: number) => {
     setSpeed(Math.min(Math.max(0, value), 100));
@@ -51,12 +38,11 @@ export default function App() {
               speed={konamiActivated ? 100 : speed} 
               onSpeedChange={handleSpeedChange}
               onKonamiInput={addToSequence}
-              socket={socket}
             />
           </div>
 
           <div className="lg:col-span-4">
-            <GPSInfo coordinates={coordinates} />
+            <GPSInfo />
           </div>
         </div>
       </div>
