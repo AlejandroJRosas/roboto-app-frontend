@@ -3,9 +3,10 @@ import { Video } from 'lucide-react';
 
 interface VideoFeedProps {
   turboMode?: boolean;
+  streamFrame?: string | null;
 }
 
-export const VideoFeed = ({ turboMode = false }: VideoFeedProps) => {
+export const VideoFeed = ({ turboMode = false, streamFrame = null }: VideoFeedProps) => {
   return (
     <div className={`bg-gray-800 rounded-lg p-4 transition-all duration-300 ${
       turboMode ? 'border-2 border-yellow-400' : ''
@@ -19,13 +20,14 @@ export const VideoFeed = ({ turboMode = false }: VideoFeedProps) => {
       <div className={`aspect-video bg-black rounded-lg flex items-center justify-center overflow-hidden ${
         turboMode ? 'animate-pulse' : ''
       }`}>
-        <img
-          src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80"
+        { streamFrame ? <img
+          src={streamFrame}
           alt="Robot camera feed"
           className={`rounded-lg w-full h-full object-cover transition-all duration-300 ${
             turboMode ? 'scale-110 saturate-150 contrast-125' : ''
           }`}
-        />
+        /> : <div>Cámara desconectada 💀</div> }
+        
       </div>
     </div>
   );

@@ -3,7 +3,8 @@ import { Header } from './components/Header';
 import { VideoFeed } from './components/VideoFeed';
 import { Controls } from './components/Controls';
 import { GPSInfo } from './components/GPSInfo';
-import { useKonamiCode } from './hooks/useKonamiCode';
+import  useKonamiCode from './hooks/useKonamiCode';
+import useSockets from './hooks/useSockets';
 
 export default function App() {
   const [speed, setSpeed] = useState(50);
@@ -13,8 +14,22 @@ export default function App() {
     altitude: '10m',
     heading: '45°',
   });
-  
+  const [streamFrame, setStreamFrame] = useState(null);
   const { konamiActivated, addToSequence } = useKonamiCode();
+  const socket = useSockets();
+  socket.on("receive-video-stream",(data) => {
+    setStreamFrame(data);
+  })
+  socket.on("receive-gps-update",(data) => {
+    setCoordinates((prevData) => {
+      return ({
+        ...prevData,
+        latitude: data.latitude + "° N",
+        longitude: data.longitude + "° W",
+        
+      });
+    })
+  })
 
   const handleSpeedChange = (value: number) => {
     setSpeed(Math.min(Math.max(0, value), 100));
@@ -29,7 +44,7 @@ export default function App() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
           <div className="lg:col-span-8 space-y-4 md:space-y-6">
-            <VideoFeed turboMode={konamiActivated} />
+            <VideoFeed turboMode={konamiActivated} streamFrame={streamFrame}/>
             <Controls 
               speed={konamiActivated ? 100 : speed} 
               onSpeedChange={handleSpeedChange}
