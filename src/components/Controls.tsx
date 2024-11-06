@@ -1,5 +1,15 @@
-import { Navigation, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, Plus, Minus, Hand } from 'lucide-react';
+import {
+  Navigation,
+  ChevronUp,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Plus,
+  Minus,
+  Hand,
+} from "lucide-react";
 import useRobotoContext from '../hooks/useRobotoContext';
+import { MoveCommand } from "../types/MoveCommand";
 
 interface ControlsProps {
   speed: number;
@@ -9,24 +19,23 @@ interface ControlsProps {
 
 export const Controls = ({ speed, onSpeedChange, onKonamiInput }: ControlsProps) => {
   const { socket } = useRobotoContext();
-  const handleButtonPress = (direction: string) => {
-    onKonamiInput?.(direction);
+  const handleButtonPress = (command: MoveCommand) => {
+    onKonamiInput?.(command);
 
     if (!socket) return;
-    socket.emit('move', direction);
+    socket.emit('move', command);
   };
 
-  const handleSpeedButton = (type: 'plus' | 'minus') => {
-
-    const newSpeed = type === 'plus' ? speed + 10 : speed - 10;
+  const handleSpeedButton = (type: "plus" | "minus") => {
+    const newSpeed = type === "plus" ? speed + 10 : speed - 10;
 
     // Actualizar el estado de speed
     onSpeedChange(newSpeed);
 
-    if (type === 'plus') {
-      onKonamiInput?.('KeyB');
+    if (type === "plus") {
+      onKonamiInput?.("KeyB");
     } else {
-      onKonamiInput?.('KeyA');
+      onKonamiInput?.("KeyA");
     }
 
     if (!socket) return;
@@ -45,7 +54,7 @@ export const Controls = ({ speed, onSpeedChange, onKonamiInput }: ControlsProps)
         <div></div>
 
         <button
-          onClick={() => handleButtonPress('ArrowUp')}
+          onClick={() => handleButtonPress("forward")}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronUp className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
@@ -53,27 +62,27 @@ export const Controls = ({ speed, onSpeedChange, onKonamiInput }: ControlsProps)
 
         <div></div>
         <button
-          onClick={() => handleButtonPress('ArrowLeft')}
+          onClick={() => handleButtonPress("turn_left")}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
         <button
-          onClick={() => handleButtonPress('StopButton')}
+          onClick={() => handleButtonPress("stop")}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <Hand className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
 
         <button
-          onClick={() => handleButtonPress('ArrowRight')}
+          onClick={() => handleButtonPress("turn_right")}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronRight className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
         <div></div>
         <button
-          onClick={() => handleButtonPress('ArrowDown')}
+          onClick={() => handleButtonPress("backward")}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronDown className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
@@ -81,10 +90,12 @@ export const Controls = ({ speed, onSpeedChange, onKonamiInput }: ControlsProps)
       </div>
 
       <div className="mt-6">
-        <label className="block text-sm font-medium mb-2">Speed Control: {speed}%</label>
+        <label className="block text-sm font-medium mb-2">
+          Speed Control: {speed}%
+        </label>
         <div className="flex items-center gap-4">
           <button
-            onClick={() => handleSpeedButton('minus')}
+            onClick={() => handleSpeedButton("minus")}
             className="bg-gray-700 hover:bg-gray-600 p-2 rounded-lg active:bg-gray-500 touch-manipulation"
           >
             <Minus className="w-4 h-4 md:w-5 md:h-5" />
@@ -96,7 +107,7 @@ export const Controls = ({ speed, onSpeedChange, onKonamiInput }: ControlsProps)
             ></div>
           </div>
           <button
-            onClick={() => handleSpeedButton('plus')}
+            onClick={() => handleSpeedButton("plus")}
             className="bg-gray-700 hover:bg-gray-600 p-2 rounded-lg active:bg-gray-500 touch-manipulation"
           >
             <Plus className="w-4 h-4 md:w-5 md:h-5" />
