@@ -54,7 +54,7 @@ export const Controls = ({ speed, onSpeedChange, onKonamiInput }: ControlsProps)
         <div></div>
 
         <button
-          onClick={() => handleButtonPress("forward")}
+          onClick={() => handleButtonPress(MoveCommand.Forward)}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronUp className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
@@ -62,27 +62,27 @@ export const Controls = ({ speed, onSpeedChange, onKonamiInput }: ControlsProps)
 
         <div></div>
         <button
-          onClick={() => handleButtonPress("turn_left")}
+          onClick={() => handleButtonPress(MoveCommand.TurnLeft)}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
         <button
-          onClick={() => handleButtonPress("stop")}
+          onClick={() => handleButtonPress(MoveCommand.Stop)}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <Hand className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
 
         <button
-          onClick={() => handleButtonPress("turn_right")}
+          onClick={() => handleButtonPress(MoveCommand.TurnRight)}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronRight className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
         <div></div>
         <button
-          onClick={() => handleButtonPress("backward")}
+          onClick={() => handleButtonPress(MoveCommand.Backward)}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronDown className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
