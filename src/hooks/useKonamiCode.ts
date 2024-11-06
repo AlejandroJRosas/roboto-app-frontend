@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const KONAMI_CODE = [
   'ArrowUp',
@@ -20,7 +20,7 @@ export const useKonamiCode = () => {
   const [inputSequence, setInputSequence] = useState<string[]>([]);
   const [deactivationSequence, setDeactivationSequence] = useState<string[]>([]);
 
-  const addToSequence = (input: string) => {
+  const addToSequence = useCallback((input: string) => {
     // Handle deactivation sequence
     if (konamiActivated) {
       const newDeactivation = [...deactivationSequence, input];
@@ -49,7 +49,7 @@ export const useKonamiCode = () => {
       setKonamiActivated(true);
       setInputSequence([]);
     }
-  };
+  }, [deactivationSequence, inputSequence, konamiActivated]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -58,7 +58,7 @@ export const useKonamiCode = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [inputSequence, deactivationSequence, konamiActivated]);
+  }, [inputSequence, deactivationSequence, konamiActivated, addToSequence]);
 
   return { konamiActivated, addToSequence };
 };
