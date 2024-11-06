@@ -1,23 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
 
 export default function(socket: Socket | null) {
     const [isConnected, _setIsConnected] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const timeoutRef = useRef<any>(null);
 
     const setIsConnected = useCallback((newIsConnected: boolean) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let timeout: any = null;
-
-        const updateIsConnected = (value: boolean) => {
-            _setIsConnected(value);
-        };
-
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            updateIsConnected(false);
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+            _setIsConnected(false);
         }, 3000);
 
-        updateIsConnected(newIsConnected);
+        _setIsConnected(newIsConnected);
     }, []);
 
     useEffect(() => {
@@ -26,6 +21,10 @@ export default function(socket: Socket | null) {
         socket.onAny(() => {
             setIsConnected(true);
         });
+
+        return () => {
+            clearTimeout(timeoutRef.current);
+        };
     }, [setIsConnected, socket]);
 
     return isConnected;
