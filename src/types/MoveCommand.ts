@@ -1,0 +1,1 @@
+export type MoveCommand = 'forward' | 'backward' | 'turn_left' | 'turn_right' | 'stop' | 'stop_motors';
