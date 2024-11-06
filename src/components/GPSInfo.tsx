@@ -7,6 +7,7 @@ interface Coordinates {
   longitude: string;
   altitude: string;
   heading: string;
+  direction: string;
 }
 
 interface GPSInfoProps {
@@ -29,6 +30,10 @@ export const GPSInfo = ({ coordinates }: GPSInfoProps) => {
         <MapComponent latitude={lat} longitude={lng} />
         
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 md:gap-4">
+        <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+            <div className="text-xs md:text-sm text-gray-400">Direction</div>
+            <div className="text-base md:text-lg font-semibold">{coordinates.direction}</div>
+          </div>
           <div className="bg-gray-700 rounded-lg p-3 md:p-4">
             <div className="text-xs md:text-sm text-gray-400">Latitude</div>
             <div className="text-base md:text-lg font-semibold">{coordinates.latitude}</div>

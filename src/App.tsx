@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Header } from './components/Header';
 import { VideoFeed } from './components/VideoFeed';
 import { Controls } from './components/Controls';
@@ -9,10 +9,12 @@ import useSockets from './hooks/useSockets';
 export default function App() {
   const [speed, setSpeed] = useState(50);
   const [coordinates, setCoordinates] = useState({
-    latitude: '40.7128° N',
-    longitude: '74.0060° W',
+    //Direction UCAB Guayana
+    latitude: '8.297190438715472',
+    longitude: '-62.71175014484465',
     altitude: '10m',
     heading: '45°',
+    direction: 'N',
   });
   const [streamFrame, setStreamFrame] = useState(null);
   const { konamiActivated, addToSequence } = useKonamiCode();
@@ -49,6 +51,7 @@ export default function App() {
               speed={konamiActivated ? 100 : speed} 
               onSpeedChange={handleSpeedChange}
               onKonamiInput={addToSequence}
+              socket={socket}
             />
           </div>
 
