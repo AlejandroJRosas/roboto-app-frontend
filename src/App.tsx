@@ -7,7 +7,16 @@ import useRobotoContext from './hooks/useRobotoContext';
 
 export default function App() {
   const [speed, setSpeed] = useState(50);
-  const { konamiActivated, addToSequence, streamFrame, socket, setStreamFrame, setCoordinates } = useRobotoContext();
+  const {
+    konamiActivated,
+    addToSequence,
+    streamFrame,
+    socket,
+    setStreamFrame,
+    setCoordinates,
+    setDirection,
+    setHeading,
+  } = useRobotoContext();
 
   useEffect(() => {
     if (!socket) return;
@@ -18,7 +27,13 @@ export default function App() {
     socket.on("receive-gps-update", (data) => {
       setCoordinates(data)
     })
-  }, [setCoordinates, setStreamFrame, socket]);
+    socket.on("receive-direction", (data) => {
+      setDirection(data);
+    });
+    socket.on('receive-heading', (data) => {
+      setHeading(data);
+    });
+  }, [setCoordinates, setDirection, setHeading, setStreamFrame, socket]);
 
   const handleSpeedChange = (value: number) => {
     setSpeed(Math.min(Math.max(0, value), 100));

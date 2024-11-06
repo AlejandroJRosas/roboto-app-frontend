@@ -29,11 +29,13 @@ const RobotoContext = createContext<RobotoContextI>({
   konamiActivated: false,
   addToSequence: function (): void {
     throw new Error("Function not implemented.");
-  }
+  },
+  isConnected: false,
 });
 
 export type RobotoContextI = RobotoStreamHook & RobotoLocationHook & KonamiCodeHook & {
   socket: Socket | null;
+  isConnected: boolean;
 };
 
 
