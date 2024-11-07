@@ -25,7 +25,7 @@ export const VideoFeed = ({ turboMode = false, streamFrame = null }: VideoFeedPr
           className={`rounded-lg w-full h-full object-cover transition-all duration-300 ${
             turboMode ? 'scale-110 saturate-150 contrast-125' : ''
           }`}
-        /> : <div>Cámara desconectada 💀</div> }
+        /> : <div>Cámara desconectada</div> }
         
       </div>
     </div>
