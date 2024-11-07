@@ -3,7 +3,7 @@ import { MapComponent } from './Map';
 import useRobotoContext from '../hooks/useRobotoContext';
 
 export const GPSInfo = () => {
-  const { coordinates, robotoLocation } = useRobotoContext();
+  const { coordinates } = useRobotoContext();
 
   return (
     <div className="bg-gray-800 rounded-lg p-4">
@@ -16,16 +16,6 @@ export const GPSInfo = () => {
         <MapComponent/>
         
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 md:gap-4">
-          <div className="bg-gray-700 rounded-lg p-3 md:p-4">
-            <div className="text-xs md:text-sm text-gray-400">Direction</div>
-            {
-              robotoLocation.direction ? (
-                <div className="text-base md:text-lg font-semibold">{robotoLocation.direction}</div>
-              ) : (
-                <div className="text-base md:text-lg font-semibold">N/A</div>
-              )
-            }
-          </div>
           {
             coordinates ? (
               <>
@@ -51,34 +41,6 @@ export const GPSInfo = () => {
                   <div className="text-base md:text-lg font-semibold">N/A</div>
                 </div>
               </>
-            )
-          }
-
-          {
-            robotoLocation.altitudeInMetters ? (
-              <div className="bg-gray-700 rounded-lg p-3 md:p-4">
-                <div className="text-xs md:text-sm text-gray-400">Altitude</div>
-                <div className="text-base md:text-lg font-semibold">{robotoLocation.altitudeInMetters}m</div>
-              </div>
-            ) : (
-              <div className="bg-gray-700 rounded-lg p-3 md:p-4">
-                <div className="text-xs md:text-sm text-gray-400">Altitude</div>
-                <div className="text-base md:text-lg font-semibold">N/A</div>
-              </div>
-            )
-          }
-
-          {
-            robotoLocation.heading ? (
-              <div className="bg-gray-700 rounded-lg p-3 md:p-4">
-                <div className="text-xs md:text-sm text-gray-400">Heading</div>
-                <div className="text-base md:text-lg font-semibold">{robotoLocation.heading}°</div>
-              </div>
-            ) : (
-              <div className="bg-gray-700 rounded-lg p-3 md:p-4">
-                <div className="text-xs md:text-sm text-gray-400">Heading</div>
-                <div className="text-base md:text-lg font-semibold">N/A</div>
-              </div>
             )
           }
         </div>
