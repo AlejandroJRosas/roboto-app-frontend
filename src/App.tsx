@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Header } from './components/Header';
 import { VideoFeed } from './components/VideoFeed';
 import { Controls } from './components/Controls';
@@ -6,7 +6,6 @@ import { GPSInfo } from './components/GPSInfo';
 import useRobotoContext from './hooks/useRobotoContext';
 
 export default function App() {
-  const [speed, setSpeed] = useState(50);
   const {
     konamiActivated,
     addToSequence,
@@ -35,10 +34,6 @@ export default function App() {
     });
   }, [setCoordinates, setDirection, setHeading, setStreamFrame, socket]);
 
-  const handleSpeedChange = (value: number) => {
-    setSpeed(Math.min(Math.max(0, value), 100));
-  };
-
   return (
     <div className={`min-h-screen bg-gray-900 text-white p-4 md:p-6 transition-all duration-300 ${
       konamiActivated ? 'turbo-mode' : ''
@@ -50,8 +45,6 @@ export default function App() {
           <div className="lg:col-span-8 space-y-4 md:space-y-6">
             <VideoFeed turboMode={konamiActivated} streamFrame={streamFrame}/>
             <Controls 
-              speed={konamiActivated ? 100 : speed} 
-              onSpeedChange={handleSpeedChange}
               onKonamiInput={addToSequence}
             />
           </div>
