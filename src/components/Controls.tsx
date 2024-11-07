@@ -8,32 +8,26 @@ import {
   Minus,
   Hand,
 } from "lucide-react";
-import { Socket } from "socket.io-client";
+import useRobotoContext from '../hooks/useRobotoContext';
 import { MoveCommand } from "../types/MoveCommand";
 
 interface ControlsProps {
   speed: number;
   onSpeedChange: (value: number) => void;
   onKonamiInput?: (input: string) => void;
-  socket: Socket;
 }
 
-export const Controls = ({
-  speed,
-  onSpeedChange,
-  onKonamiInput,
-  socket,
-}: ControlsProps) => {
+export const Controls = ({ speed, onSpeedChange, onKonamiInput }: ControlsProps) => {
+  const { socket } = useRobotoContext();
   const handleButtonPress = (command: MoveCommand) => {
     onKonamiInput?.(command);
-    socket.emit("move", command);
+
+    if (!socket) return;
+    socket.emit('move', command);
   };
 
   const handleSpeedButton = (type: "plus" | "minus") => {
     const newSpeed = type === "plus" ? speed + 10 : speed - 10;
-
-    // Emitir el nuevo valor de speed directamente
-    socket.emit("speed", newSpeed);
 
     // Actualizar el estado de speed
     onSpeedChange(newSpeed);
@@ -43,6 +37,10 @@ export const Controls = ({
     } else {
       onKonamiInput?.("KeyA");
     }
+
+    if (!socket) return;
+    // Emitir el nuevo valor de speed directamente
+    socket.emit('speed', newSpeed);
   };
 
   return (
@@ -56,7 +54,7 @@ export const Controls = ({
         <div></div>
 
         <button
-          onClick={() => handleButtonPress("forward")}
+          onClick={() => handleButtonPress(MoveCommand.Forward)}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronUp className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
@@ -64,27 +62,27 @@ export const Controls = ({
 
         <div></div>
         <button
-          onClick={() => handleButtonPress("turn_left")}
+          onClick={() => handleButtonPress(MoveCommand.TurnLeft)}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
         <button
-          onClick={() => handleButtonPress("stop")}
+          onClick={() => handleButtonPress(MoveCommand.Stop)}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <Hand className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
 
         <button
-          onClick={() => handleButtonPress("turn_right")}
+          onClick={() => handleButtonPress(MoveCommand.TurnRight)}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronRight className="w-6 h-6 md:w-8 md:h-8 mx-auto" />
         </button>
         <div></div>
         <button
-          onClick={() => handleButtonPress("backward")}
+          onClick={() => handleButtonPress(MoveCommand.Backward)}
           className="bg-gray-700 hover:bg-gray-600 p-3 md:p-4 rounded-lg transition-colors active:bg-gray-500 touch-manipulation"
         >
           <ChevronDown className="w-6 h-6 md:w-8 md:h-8 mx-auto" />

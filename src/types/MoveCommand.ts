@@ -1,1 +1,8 @@
-export type MoveCommand = 'forward' | 'backward' | 'turn_left' | 'turn_right' | 'stop' | 'stop_motors';
+export enum MoveCommand {
+    Forward = 'forward',
+    Backward = 'backward',
+    TurnLeft = 'turn_left',
+    TurnRight = 'turn_right',
+    Stop = 'stop',
+    StopMotors = 'stop_motors',
+}
