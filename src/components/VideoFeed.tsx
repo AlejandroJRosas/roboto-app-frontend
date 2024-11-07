@@ -1,4 +1,3 @@
-import React from 'react';
 import { Video } from 'lucide-react';
 
 interface VideoFeedProps {
@@ -21,12 +20,12 @@ export const VideoFeed = ({ turboMode = false, streamFrame = null }: VideoFeedPr
         turboMode ? 'animate-pulse' : ''
       }`}>
         { streamFrame ? <img
-          src={streamFrame}
+          src={`data:image/png;base64,${streamFrame}`}
           alt="Robot camera feed"
           className={`rounded-lg w-full h-full object-cover transition-all duration-300 ${
             turboMode ? 'scale-110 saturate-150 contrast-125' : ''
           }`}
-        /> : <div>Cámara desconectada 💀</div> }
+        /> : <div>Cámara desconectada</div> }
         
       </div>
     </div>

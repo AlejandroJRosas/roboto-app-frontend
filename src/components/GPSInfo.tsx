@@ -11,12 +11,12 @@ export const GPSInfo = () => {
         <Compass className="w-5 h-5 md:w-6 md:h-6 text-blue-400" />
         <h2 className="text-lg md:text-xl font-semibold">GPS Information</h2>
       </div>
-      
+
       <div className="space-y-3 md:space-y-4">
         <MapComponent/>
         
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 md:gap-4">
-        <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+          <div className="bg-gray-700 rounded-lg p-3 md:p-4">
             <div className="text-xs md:text-sm text-gray-400">Direction</div>
             {
               robotoLocation.direction ? (
