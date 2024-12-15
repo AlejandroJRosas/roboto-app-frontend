@@ -18,7 +18,7 @@ export default function useRobotoLocation(): RobotoLocationHook {
 			heading,
 			altitudeInMetters,
 			direction: direction!
-		})			
+		})
 	},[coordinates, heading, altitudeInMetters, direction]);
 
 	return { robotoLocation, setHeading, setDirection, coordinates, setCoordinates };
