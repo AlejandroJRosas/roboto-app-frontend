@@ -1,11 +1,10 @@
-import { Brain } from "lucide-react";
+import { Brain, Map, Gamepad, Dog } from "lucide-react";
 import useRobotoContext from "../hooks/useRobotoContext";
 import { MovementMode } from '../hooks/useRobotoStatus';
 
 export const ControlMode = () => {
   const { socket, robotoStatus } = useRobotoContext();
   const handleButtonPress = (command: MovementMode) => {
-
     if (!socket) return;
     socket.emit('change-mode', command);
   };
@@ -23,46 +22,34 @@ export const ControlMode = () => {
       </div>
 
       <div className="grid grid-cols-3 gap-3 md:gap-4 max-w-[240px] mx-auto">
-        <div className="flex gap-2">
-          <input
-            type="radio"
-            name="control-mode"
-            id="controller-mode"
-            onChange={() => {
-              handleButtonPress(MovementMode.CONTROL);
-            }}
-            value={MovementMode.CONTROL}
-            checked={robotoStatus.movementMode === MovementMode.CONTROL}
-          ></input>
-          <label>Control</label>
+        <div
+          className={`flex flex-col items-center gap-2 p-2 rounded-lg cursor-pointer ${
+            robotoStatus.movementMode === MovementMode.CONTROL ? 'bg-blue-500' : 'bg-gray-700'
+          }`}
+          onClick={() => handleButtonPress(MovementMode.CONTROL)}
+        >
+          <Gamepad className="w-6 h-6 text-white" />
+          <span className="text-white">Control</span>
         </div>
 
-        <div className="flex gap-2">
-          <input
-            type="radio"
-            name="control-mode"
-            id="map-mode"
-            onChange={() => {
-              handleButtonPress(MovementMode.MAP);
-            }}
-            value={MovementMode.MAP}
-            checked={robotoStatus.movementMode === MovementMode.MAP}
-          ></input>
-          <label>Mapa</label>
+        <div
+          className={`flex flex-col items-center gap-2 p-2 rounded-lg cursor-pointer ${
+            robotoStatus.movementMode === MovementMode.MAP ? 'bg-blue-500' : 'bg-gray-700'
+          }`}
+          onClick={() => handleButtonPress(MovementMode.MAP)}
+        >
+          <Map className="w-6 h-6 text-white" />
+          <span className="text-white">Mapa</span>
         </div>
 
-        <div className="flex gap-2">
-          <input
-            type="radio"
-            name="control-mode"
-            id="dog-mode"
-            onChange={() => {
-              handleButtonPress(MovementMode.DOG);
-            }}
-            checked={robotoStatus.movementMode === MovementMode.DOG}
-            value={MovementMode.DOG}
-          ></input>
-          <label>Perro</label>
+        <div
+          className={`flex flex-col items-center gap-2 p-2 rounded-lg cursor-pointer ${
+            robotoStatus.movementMode === MovementMode.DOG ? 'bg-blue-500' : 'bg-gray-700'
+          }`}
+          onClick={() => handleButtonPress(MovementMode.DOG)}
+        >
+          <Dog className="w-6 h-6 text-white" />
+          <span className="text-white">Perro</span>
         </div>
       </div>
     </div>
