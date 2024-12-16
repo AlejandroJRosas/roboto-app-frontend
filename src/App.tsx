@@ -17,7 +17,8 @@ export default function App() {
     setDirection,
     setHeading,
     setOrientation,
-    setSpeed
+    setSpeed,
+    changeRobotoStatus
   } = useRobotoContext();
 
   useEffect(() => {
@@ -41,7 +42,10 @@ export default function App() {
     socket.on("receive-heading", (data) => {
       setHeading(data);
     });
-  }, [setCoordinates, setDirection, setHeading, setOrientation, setSpeed, setStreamFrame, socket]);
+    socket.on("receive-current-status", (data) => {
+      changeRobotoStatus(data);
+    });
+  }, [changeRobotoStatus, setCoordinates, setDirection, setHeading, setOrientation, setSpeed, setStreamFrame, socket]);
 
   return (
     <div
@@ -58,7 +62,7 @@ export default function App() {
             <Controls onKonamiInput={addToSequence} />
           </div>
 
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-4 md:space-y-6">
             <GPSInfo />
             <ControlMode />
           </div>

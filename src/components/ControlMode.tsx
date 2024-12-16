@@ -1,22 +1,25 @@
-import { Navigation } from "lucide-react";
+import { Brain } from "lucide-react";
 import useRobotoContext from "../hooks/useRobotoContext";
-import { MoveCommand } from "../types/MoveCommand";
+import { MovementMode } from '../hooks/useRobotoStatus';
 
-interface ControlsProps {
-  onKonamiInput?: (input: string) => void;
-}
+export const ControlMode = () => {
+  const { socket, robotoStatus } = useRobotoContext();
+  const handleButtonPress = (command: MovementMode) => {
 
-export const ControlMode = ({ onKonamiInput }: ControlsProps) => {
-  const { socket } = useRobotoContext();
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.name);
+    if (!socket) return;
+    socket.emit('change-mode', command);
   };
 
   return (
     <div className="bg-gray-800 rounded-lg p-4">
       <div className="flex items-center gap-2 mb-4">
-        <Navigation className="w-5 h-5 md:w-6 md:h-6 text-blue-400" />
-        <h2 className="text-lg md:text-xl font-semibold">Movement Controls</h2>
+        <Brain className="w-5 h-5 md:w-6 md:h-6 text-blue-400" />
+        <h2 className="text-lg md:text-xl font-semibold">Movement mode</h2>
+        <div>
+          <span className="text-xs md:text-sm text-gray-500">
+            {robotoStatus.movementMode}
+          </span>
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-3 md:gap-4 max-w-[240px] mx-auto">
@@ -25,7 +28,11 @@ export const ControlMode = ({ onKonamiInput }: ControlsProps) => {
             type="radio"
             name="control-mode"
             id="controller-mode"
-            onChange={handleInputChange}
+            onChange={() => {
+              handleButtonPress(MovementMode.CONTROL);
+            }}
+            value={MovementMode.CONTROL}
+            checked={robotoStatus.movementMode === MovementMode.CONTROL}
           ></input>
           <label>Control</label>
         </div>
@@ -35,7 +42,11 @@ export const ControlMode = ({ onKonamiInput }: ControlsProps) => {
             type="radio"
             name="control-mode"
             id="map-mode"
-            onChange={handleInputChange}
+            onChange={() => {
+              handleButtonPress(MovementMode.MAP);
+            }}
+            value={MovementMode.MAP}
+            checked={robotoStatus.movementMode === MovementMode.MAP}
           ></input>
           <label>Mapa</label>
         </div>
@@ -45,7 +56,11 @@ export const ControlMode = ({ onKonamiInput }: ControlsProps) => {
             type="radio"
             name="control-mode"
             id="dog-mode"
-            onChange={handleInputChange}
+            onChange={() => {
+              handleButtonPress(MovementMode.DOG);
+            }}
+            checked={robotoStatus.movementMode === MovementMode.DOG}
+            value={MovementMode.DOG}
           ></input>
           <label>Perro</label>
         </div>

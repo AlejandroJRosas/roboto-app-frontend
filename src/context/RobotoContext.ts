@@ -3,6 +3,7 @@ import { RobotoLocationHook } from "../hooks/useRobotoLocation";
 import { RobotoStreamHook } from "../hooks/useRobotoStream";
 import { Socket } from "socket.io-client";
 import { KonamiCodeHook } from "../hooks/useKonamiCode";
+import { MovementMode, RobotoStatusHook } from "../hooks/useRobotoStatus";
 
 const RobotoContext = createContext<RobotoContextI>({
   streamFrame: null,
@@ -40,10 +41,24 @@ const RobotoContext = createContext<RobotoContextI>({
   speed: null,
   setSpeed: function (): void {
     throw new Error("Function not implemented.");
+  },
+  changeRobotoStatus: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  robotoStatus: {
+    movementMode: MovementMode.CONTROL,
+    running: false,
+    movementSpeed: 0
+  },
+  setMovementMode: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  setMovementSpeed: function (): void {
+    throw new Error("Function not implemented.");
   }
 });
 
-export type RobotoContextI = RobotoStreamHook & RobotoLocationHook & KonamiCodeHook & {
+export type RobotoContextI = RobotoStreamHook & RobotoLocationHook & KonamiCodeHook & RobotoStatusHook & {
   socket: Socket | null;
   isConnected: boolean;
 };
