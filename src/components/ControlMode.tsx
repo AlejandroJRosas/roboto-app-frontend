@@ -1,4 +1,4 @@
-import { Brain, Map, Gamepad, Dog } from "lucide-react";
+import { Brain, MapPinned, Gamepad, Waypoints, Dog } from "lucide-react";
 import useRobotoContext from "../hooks/useRobotoContext";
 import { MovementMode } from '../hooks/useRobotoStatus';
 
@@ -21,7 +21,7 @@ export const ControlMode = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 md:gap-4 max-w-[240px] mx-auto">
+      <div className="grid grid-cols-4 gap-3 md:gap-4 max-w-[360px] mx-auto">
         <div
           className={`flex flex-col items-center gap-2 p-2 rounded-lg cursor-pointer ${
             robotoStatus.movementMode === MovementMode.CONTROL ? 'bg-blue-500' : 'bg-gray-700'
@@ -38,7 +38,7 @@ export const ControlMode = () => {
           }`}
           onClick={() => handleButtonPress(MovementMode.MAP)}
         >
-          <Map className="w-6 h-6 text-white" />
+          <MapPinned className="w-6 h-6 text-white" />
           <span className="text-white">Mapa</span>
         </div>
 
@@ -51,6 +51,16 @@ export const ControlMode = () => {
           <Dog className="w-6 h-6 text-white" />
           <span className="text-white">Perro</span>
         </div>
+
+        {/* WIP */}
+        <div
+          className={`flex flex-col items-center gap-2 p-2 rounded-lg cursor-not-allowed bg-gray-700 opacity-50`}
+          onClick={(e) => e.preventDefault()}
+        >
+          <Waypoints className="w-6 h-6 text-white" />
+          <span className="text-white">Ruta</span>
+        </div>
+
       </div>
     </div>
   );

@@ -6,7 +6,8 @@ import {
   ChevronRight,
   Hand,
   Dog,
-  Map,
+  MapPinned,
+  Waypoints
 } from "lucide-react";
 import useRobotoContext from '../hooks/useRobotoContext';
 import { MoveCommand } from "../types/MoveCommand";
@@ -27,11 +28,13 @@ export const Controls = ({ onKonamiInput }: ControlsProps) => {
 
   const isDogMode = robotoStatus.movementMode === MovementMode.DOG;
   const isMapMode = robotoStatus.movementMode === MovementMode.MAP;
+  const isPathMode = robotoStatus.movementMode === MovementMode.PATH;
   const isControlMode = robotoStatus.movementMode === MovementMode.CONTROL;
 
   const renderOverlayIcon = () => {
     if (isDogMode) return <Dog className="w-12 h-12 md:w-16 md:h-16 mx-auto text-gray-500" />;
-    if (isMapMode) return <Map className="w-12 h-12 md:w-16 md:h-16 mx-auto text-gray-500" />;
+    if (isMapMode) return <MapPinned className="w-12 h-12 md:w-16 md:h-16 mx-auto text-gray-500" />;
+    if (isPathMode) return <Waypoints className="w-12 h-12 md:w-16 md:h-16 mx-auto text-gray-500" />;
     return null;
   };
 
@@ -42,7 +45,7 @@ export const Controls = ({ onKonamiInput }: ControlsProps) => {
         <h2 className="text-lg md:text-xl font-semibold">Movement Controls</h2>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 md:gap-4 max-w-[240px] mx-auto">
+      <div className="grid grid-cols-3 gap-4 md:gap-4 max-w-[240px] mx-auto">
         <div></div>
 
         <button

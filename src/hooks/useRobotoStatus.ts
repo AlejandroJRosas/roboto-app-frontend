@@ -28,9 +28,10 @@ export default function useRobotoLocation(): RobotoStatusHook {
 }
 
 export enum MovementMode {
-  CONTROL = "control",
-  DOG = "dog",
-  MAP = "map"
+  	CONTROL = "control",
+  	DOG = "dog",
+	MAP = "map",
+	PATH = "path"
 }
 
 export interface RobotoStatus {
