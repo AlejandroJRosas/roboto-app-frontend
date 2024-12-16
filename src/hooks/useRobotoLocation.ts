@@ -11,17 +11,21 @@ export default function useRobotoLocation(): RobotoLocationHook {
 	const [altitudeInMetters] = useState<number | null>(null);
 	const [heading, setHeading] = useState<number | null>(null);
 	const [direction, setDirection] = useState<Direction | null>(null);
+	const [orientation, setOrientation] = useState<number | null>(null);
+	const [speed, setSpeed] = useState<number | null>(null);
 
 	const robotoLocation = useMemo(() => {
 		return ({
 			coordinates,
 			heading,
 			altitudeInMetters,
-			direction: direction!
+			direction: direction!,
+			orientation,
+			speed,
 		})
-	},[coordinates, heading, altitudeInMetters, direction]);
+	},[coordinates, heading, altitudeInMetters, direction, orientation, speed]);
 
-	return { robotoLocation, setHeading, setDirection, coordinates, setCoordinates };
+	return { robotoLocation, setHeading, setDirection, coordinates, setCoordinates, orientation, setOrientation, speed, setSpeed };
 }
 
 export enum Direction {
@@ -40,6 +44,8 @@ export interface RobotoLocation {
 	heading: number | null;
 	altitudeInMetters: number | null;
 	direction: Direction | null;
+	orientation: number | null;
+	speed: number | null;
 }
 
 export interface RobotoLocationHook {
@@ -48,4 +54,8 @@ export interface RobotoLocationHook {
 	setDirection: Dispatch<SetStateAction<Direction | null>>;
 	setCoordinates: Dispatch<SetStateAction<CoordinatesI | null>>;
 	coordinates: CoordinatesI | null;
+	orientation: number | null;
+	setOrientation: Dispatch<SetStateAction<number | null>>;
+	speed: number | null;
+	setSpeed: Dispatch<SetStateAction<number | null>>;
 }

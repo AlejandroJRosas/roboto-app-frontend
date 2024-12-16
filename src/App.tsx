@@ -16,6 +16,8 @@ export default function App() {
     setCoordinates,
     setDirection,
     setHeading,
+    setOrientation,
+    setSpeed
   } = useRobotoContext();
 
   useEffect(() => {
@@ -27,13 +29,19 @@ export default function App() {
     socket.on("receive-gps-update", (data) => {
       setCoordinates(data);
     });
+    socket.on("receive-gps-speed", (data) => {
+      setSpeed(data);
+    });
+    socket.on("receive-gps-orientation", (data) => {
+      setOrientation(data);
+    });
     socket.on("receive-direction", (data) => {
       setDirection(data);
     });
     socket.on("receive-heading", (data) => {
       setHeading(data);
     });
-  }, [setCoordinates, setDirection, setHeading, setStreamFrame, socket]);
+  }, [setCoordinates, setDirection, setHeading, setOrientation, setSpeed, setStreamFrame, socket]);
 
   return (
     <div

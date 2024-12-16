@@ -13,7 +13,9 @@ const RobotoContext = createContext<RobotoContextI>({
     coordinates: null,
     heading: null,
     altitudeInMetters: null,
-    direction: null
+    direction: null,
+    orientation: null,
+    speed: null
   },
   setHeading: function (): void {
     throw new Error("Function not implemented.");
@@ -31,6 +33,14 @@ const RobotoContext = createContext<RobotoContextI>({
     throw new Error("Function not implemented.");
   },
   isConnected: false,
+  orientation: null,
+  setOrientation: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  speed: null,
+  setSpeed: function (): void {
+    throw new Error("Function not implemented.");
+  }
 });
 
 export type RobotoContextI = RobotoStreamHook & RobotoLocationHook & KonamiCodeHook & {

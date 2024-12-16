@@ -3,7 +3,7 @@ import { MapComponent } from './Map';
 import useRobotoContext from '../hooks/useRobotoContext';
 
 export const GPSInfo = () => {
-  const { coordinates } = useRobotoContext();
+  const { coordinates, robotoLocation } = useRobotoContext();
 
   return (
     <div className="bg-gray-800 rounded-lg p-4">
@@ -43,6 +43,21 @@ export const GPSInfo = () => {
               </>
             )
           }
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 md:gap-4">
+          <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+            <div className="text-xs md:text-sm text-gray-400">Orientacion</div>
+            <div className="text-base md:text-lg font-semibold">{
+              robotoLocation.orientation ? robotoLocation.orientation.toFixed(2) + '°' : 'N/A'
+            }</div>
+          </div>
+          <div className="bg-gray-700 rounded-lg p-3 md:p-4">
+            <div className="text-xs md:text-sm text-gray-400">Velocidad</div>
+            <div className="text-base md:text-lg font-semibold">{
+              robotoLocation.speed ? robotoLocation.speed.toFixed(2) + ' m/s' : 'N/A'
+            }</div>
+          </div>
         </div>
       </div>
     </div>
