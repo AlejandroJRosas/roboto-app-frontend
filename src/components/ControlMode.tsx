@@ -54,8 +54,10 @@ export const ControlMode = () => {
 
         {/* WIP */}
         <div
-          className={`flex flex-col items-center gap-2 p-2 rounded-lg cursor-not-allowed bg-gray-700 opacity-50`}
-          onClick={(e) => e.preventDefault()}
+          className={`flex flex-col items-center gap-2 p-2 rounded-lg cursor-pointer ${
+            robotoStatus.movementMode === MovementMode.PATH ? 'bg-blue-500' : 'bg-gray-700'
+          }`}
+          onClick={() => handleButtonPress(MovementMode.PATH)}
         >
           <Waypoints className="w-6 h-6 text-white" />
           <span className="text-white">Ruta</span>
