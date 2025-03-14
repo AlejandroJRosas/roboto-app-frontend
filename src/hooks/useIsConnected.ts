@@ -17,7 +17,7 @@ export default function(socket: Socket | null) {
 
     useEffect(() => {
         if (!socket) return;
-
+        console.log(socket)
         socket.onAny(() => {
             setIsConnected(true);
         });

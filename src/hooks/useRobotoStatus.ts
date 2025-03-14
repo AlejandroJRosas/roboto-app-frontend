@@ -1,37 +1,45 @@
-import { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 
 export default function useRobotoLocation(): RobotoStatusHook {
-	const [running, setRunning] = useState<boolean>(false);
-	const [movementMode, setMovementMode] = useState<MovementMode>(MovementMode.CONTROL);
-	const [movementSpeed, setMovementSpeed] = useState<number>(0);
+  const [running, setRunning] = useState<boolean>(false);
+  const [movementMode, setMovementMode] = useState<MovementMode>(
+    MovementMode.CONTROL
+  );
+  const [movementSpeed, setMovementSpeed] = useState<number>(0);
 
-	const changeRobotoStatus = useCallback((status: RobotoStatus) => {
-		setMovementMode(status.movementMode);
-		setRunning(status.running);
-		setMovementSpeed(status.movementSpeed);
-	}, []);
+  const changeRobotoStatus = useCallback((status: RobotoStatus) => {
+    setMovementMode(status.movementMode);
+    setRunning(status.running);
+    setMovementSpeed(status.movementSpeed);
+  }, []);
 
-	const robotoStatus = useMemo(() => {
-		return ({
-			running,
-			movementMode,
-			movementSpeed
-		});
-	}, [running, movementMode, movementSpeed]);
+  const robotoStatus = useMemo(() => {
+    return {
+      running,
+      movementMode,
+      movementSpeed,
+    };
+  }, [running, movementMode, movementSpeed]);
 
-	return {
-		robotoStatus,
-		changeRobotoStatus,
-		setMovementMode,
-		setMovementSpeed
-	};
+  return {
+    robotoStatus,
+    changeRobotoStatus,
+    setMovementMode,
+    setMovementSpeed,
+  };
 }
 
 export enum MovementMode {
-  	CONTROL = "control",
-  	DOG = "dog",
-	MAP = "map",
-	PATH = "path"
+  CONTROL = "control",
+  DOG = "dog",
+  MAP = "map",
+  PATH = "path",
 }
 
 export interface RobotoStatus {
@@ -41,8 +49,8 @@ export interface RobotoStatus {
 }
 
 export interface RobotoStatusHook {
-	changeRobotoStatus: (status: RobotoStatus) => void;
-	robotoStatus: RobotoStatus;
-	setMovementMode: Dispatch<SetStateAction<MovementMode>>;
-	setMovementSpeed: Dispatch<SetStateAction<number>>;
+  changeRobotoStatus: (status: RobotoStatus) => void;
+  robotoStatus: RobotoStatus;
+  setMovementMode: Dispatch<SetStateAction<MovementMode>>;
+  setMovementSpeed: Dispatch<SetStateAction<number>>;
 }

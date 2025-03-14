@@ -18,13 +18,15 @@ export default function App() {
     setHeading,
     setOrientation,
     setSpeed,
-    changeRobotoStatus
+    changeRobotoStatus,
   } = useRobotoContext();
 
   useEffect(() => {
+    console.log(socket);
     if (!socket) return;
 
     socket.on("receive-video-stream", (data) => {
+      console.log(data)
       setStreamFrame(data);
     });
     socket.on("receive-gps-update", (data) => {
@@ -45,7 +47,16 @@ export default function App() {
     socket.on("receive-current-status", (data) => {
       changeRobotoStatus(data);
     });
-  }, [changeRobotoStatus, setCoordinates, setDirection, setHeading, setOrientation, setSpeed, setStreamFrame, socket]);
+  }, [
+    changeRobotoStatus,
+    setCoordinates,
+    setDirection,
+    setHeading,
+    setOrientation,
+    setSpeed,
+    setStreamFrame,
+    socket,
+  ]);
 
   return (
     <div
