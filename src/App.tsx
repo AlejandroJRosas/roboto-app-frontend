@@ -20,14 +20,19 @@ export default function App() {
     setOrientation,
     setSpeed,
     changeRobotoStatus,
+    setSensorHistory,
+    sensorHistory,
   } = useRobotoContext();
 
+  const handleButtonPress = () => {
+    if (!socket) return;
+    socket.emit("sensors");
+  };
+
   useEffect(() => {
-    console.log(socket);
     if (!socket) return;
 
     socket.on("receive-video-stream", (data) => {
-      console.log(data);
       setStreamFrame(data);
     });
     socket.on("receive-gps-update", (data) => {
@@ -48,6 +53,12 @@ export default function App() {
     socket.on("receive-current-status", (data) => {
       changeRobotoStatus(data);
     });
+    socket.on("receive-current-sensors", (data) => {
+      setSensorHistory([
+        { tds: data.tds, turbidez: data.turbidez },
+        ...sensorHistory,
+      ]);
+    });
   }, [
     changeRobotoStatus,
     setCoordinates,
@@ -57,6 +68,8 @@ export default function App() {
     setSpeed,
     setStreamFrame,
     socket,
+    setSensorHistory,
+    sensorHistory,
   ]);
 
   return (
@@ -80,28 +93,41 @@ export default function App() {
             <div
               className={`bg-gray-800 rounded-lg p-4 flex flex-col px-4 py-4`}
             >
-              <div className="flex items-center gap-2 mb-4">
-                <Text className="w-5 h-5 md:w-6 md:h-6 text-blue-400" />
-                <h2 className="text-lg md:text-xl font-semibold">
-                  Historial de operaciones
-                </h2>
+              <div className="flex justify-between gap-2 mb-4">
+                <div className="flex items-center gap-2">
+                  <Text className="w-5 h-5 md:w-6 md:h-6 text-blue-400" />
+                  <h2 className="text-lg md:text-xl font-semibold">
+                    Historial de operaciones
+                  </h2>
+                </div>
+
+                <button
+                  className="bg-blue-500 py-2 px-2 rounded-lg"
+                  onClick={handleButtonPress}
+                >
+                  Obtener Muestra
+                </button>
               </div>
 
               <div className="flex flex-col border-solid border-2 border-gray-900 h-full max-h-80 rounded-lg gap-3 overflow-y-auto py-4 px-4 ">
-                {[...Array(5)].map((_, index) => (
+                {sensorHistory.map((item, index) => (
                   <div
                     key={index}
                     className="grid grid-cols-6 gap-4 bg-gray-700 rounded-lg items-center"
                   >
                     <div className="text-center py-3">
                       <h3 className="text-base text-gray-400">Turbidez</h3>
-                      <h2 className="text-xl font-semibold">5 UNF</h2>
+                      <h2 className="text-xl font-semibold">
+                        {item.turbidez.toFixed(2)} UNF
+                      </h2>
                     </div>
                     <div className="text-center py-3">
                       <h3 className="text-base text-gray-400">
                         Sólidos disueltos
                       </h3>
-                      <h2 className="text-xl font-semibold">5</h2>
+                      <h2 className="text-xl font-semibold">
+                        {item.tds.toFixed(2)}
+                      </h2>
                     </div>
                     <div className="text-center py-3">
                       <h3 className="text-base text-gray-400">pH</h3>
