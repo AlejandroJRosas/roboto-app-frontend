@@ -5,6 +5,7 @@ import { Controls } from "./components/Controls";
 import { GPSInfo } from "./components/GPSInfo";
 import useRobotoContext from "./hooks/useRobotoContext";
 import { ControlMode } from "./components/ControlMode";
+import { Text } from "lucide-react";
 
 export default function App() {
   const {
@@ -26,7 +27,7 @@ export default function App() {
     if (!socket) return;
 
     socket.on("receive-video-stream", (data) => {
-      console.log(data)
+      console.log(data);
       setStreamFrame(data);
     });
     socket.on("receive-gps-update", (data) => {
@@ -67,15 +68,61 @@ export default function App() {
       <div className="max-w-7xl mx-auto space-y-4 md:space-y-6">
         <Header turboMode={konamiActivated} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
-          <div className="lg:col-span-8 space-y-4 md:space-y-6">
+        <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-[4fr_2fr] gap-4">
             <VideoFeed turboMode={konamiActivated} streamFrame={streamFrame} />
-            <Controls onKonamiInput={addToSequence} />
+            <GPSInfo />
           </div>
 
-          <div className="lg:col-span-4 md:space-y-6">
-            <GPSInfo />
+          <div className="grid grid-cols-[2fr_1fr_4fr] gap-4">
+            <Controls onKonamiInput={addToSequence} />
             <ControlMode />
+            <div
+              className={`bg-gray-800 rounded-lg p-4 flex flex-col px-4 py-4`}
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <Text className="w-5 h-5 md:w-6 md:h-6 text-blue-400" />
+                <h2 className="text-lg md:text-xl font-semibold">
+                  Historial de operaciones
+                </h2>
+              </div>
+
+              <div className="flex flex-col border-solid border-2 border-gray-900 h-full max-h-80 rounded-lg gap-3 overflow-y-auto py-4 px-4 ">
+                {[...Array(5)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-6 gap-4 bg-gray-700 rounded-lg items-center"
+                  >
+                    <div className="text-center py-3">
+                      <h3 className="text-base text-gray-400">Turbidez</h3>
+                      <h2 className="text-xl font-semibold">5 UNF</h2>
+                    </div>
+                    <div className="text-center py-3">
+                      <h3 className="text-base text-gray-400">
+                        Sólidos disueltos
+                      </h3>
+                      <h2 className="text-xl font-semibold">5</h2>
+                    </div>
+                    <div className="text-center py-3">
+                      <h3 className="text-base text-gray-400">pH</h3>
+                      <h2 className="text-xl font-semibold">6.2</h2>
+                    </div>
+                    <div className="text-center py-3">
+                      <h3 className="text-base text-gray-400">Temperatura</h3>
+                      <h2 className="text-xl font-semibold">32 C°</h2>
+                    </div>
+                    <div className="text-center py-3">
+                      <h3 className="text-base text-gray-400">Latitud</h3>
+                      <h2 className="text-xl font-semibold">23 {"° N"}</h2>
+                    </div>
+                    <div className="text-center py-3">
+                      <h3 className="text-base text-gray-400">Longitud</h3>
+                      <h2 className="text-xl font-semibold">20 {"° W"}</h2>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

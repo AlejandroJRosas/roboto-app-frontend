@@ -32,7 +32,7 @@ export const Header = ({ turboMode = false }: HeaderProps) => {
           <div className={`w-3 h-3 rounded-full animate-pulse ${
             turboMode ? 'bg-yellow-400' : isConnected ? 'bg-green-500' : 'bg-red-500'
           }`}></div>
-          <span className="text-sm md:text-base">{isConnected ? 'Connected' : 'Disconnected'}</span>
+          <span className="text-sm md:text-base">{isConnected ? 'Conectado' : 'Desconectado'}</span>
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@ export const VideoFeed = ({ turboMode = false, streamFrame = null }: VideoFeedPr
         <Video className={`w-5 h-5 md:w-6 md:h-6 ${
           turboMode ? 'text-yellow-400' : 'text-blue-400'
         }`} />
-        <h2 className="text-lg md:text-xl font-semibold">Camera Feed</h2>
+        <h2 className="text-lg md:text-xl font-semibold">Cámara</h2>
       </div>
       <div className={`aspect-video bg-black rounded-lg flex items-center justify-center overflow-hidden ${
         turboMode ? 'animate-pulse' : ''
